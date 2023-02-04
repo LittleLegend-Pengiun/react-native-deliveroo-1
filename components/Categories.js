@@ -14,9 +14,12 @@ const Categories = () => {
      }}
     >
         {/*Category cards */}
-        <CategoryCard imgurl={require("../assets/1.png")} title="Testing"/>
+        <CategoryCard imgurl={require("../assets/sushi-place.jpg")} title="Testing"/>
         <CategoryCard imgurl={require("../assets/1.png")}  title="Testing"/>
         <CategoryCard imgurl={require("../assets/1.png")}  title="Testing"/>
+        <CategoryCard imgurl={require("../assets/sushi-place.jpg")} title="Testing"/>
+        <CategoryCard imgurl={require("../assets/sushi-place.jpg")} title="Testing"/>
+        <CategoryCard imgurl={require("../assets/sushi-place.jpg")} title="Testing"/>
 
     </ScrollView>
   )

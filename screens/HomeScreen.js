@@ -7,6 +7,7 @@ import {
   ChevronDownIcon, MagnifyingGlassIcon, UserIcon,
 } from 'react-native-heroicons/outline'
 import Categories from '../components/Categories';
+import FeatureRows from '../components/FeatureRows';
 
 
 const HomeScreen = () => {
@@ -63,6 +64,26 @@ const HomeScreen = () => {
       >
         {/*Categories*/}
         <Categories />
+
+        {/* Feature rows */}
+        <FeatureRows 
+          id="123"
+          title="Feature"
+          description="Paid placement from our partner"
+        />
+
+        <FeatureRows 
+          id="1234"
+          title="Discount"
+          description="Enjoy these juicy discounts"
+        />
+
+        <FeatureRows 
+          id="12345"
+          title="Offers near you"
+          description="Support your local restaurant tonight"
+        /> 
+        {}
       </ScrollView>
     </SafeAreaView>
   )
