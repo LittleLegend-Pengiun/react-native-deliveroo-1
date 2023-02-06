@@ -1,5 +1,5 @@
 import { View, Text, Image, SafeAreaView, TextInput, ScrollView } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import GlobalStyle from '../components/GlobalStyle';
 import {
@@ -8,10 +8,13 @@ import {
 } from 'react-native-heroicons/outline'
 import Categories from '../components/Categories';
 import FeatureRows from '../components/FeatureRows';
-
+import axios from 'axios';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [data, setData] = useState([]);
+  //let data = [];
+  const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,6 +22,24 @@ const HomeScreen = () => {
     }
     )
   }, []);
+
+  const fetchData = async () => {
+    try{
+      const res = await fetch('http://192.168.1.2:8000/all_features')
+      const item = await res.json();
+      setData(item);
+      console.log('item: ', data)
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {fetchData()}, [])
+  
+
+
   return (
     <SafeAreaView className={GlobalStyle.droidSafeArea}>
       {/* Header */}
@@ -66,23 +87,21 @@ const HomeScreen = () => {
         <Categories />
 
         {/* Feature rows */}
-        <FeatureRows 
+        {loading ? <Text>Loading...</Text> : data?.map(item => {
+        return (
+          <FeatureRows 
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          description={item.description}
+        />
+        )
+        })}
+        {/*<FeatureRows 
           id="123"
           title="Feature"
           description="Paid placement from our partner"
-        />
-
-        <FeatureRows 
-          id="1234"
-          title="Discount"
-          description="Enjoy these juicy discounts"
-        />
-
-        <FeatureRows 
-          id="12345"
-          title="Offers near you"
-          description="Support your local restaurant tonight"
-        /> 
+        />*/}
         {}
       </ScrollView>
     </SafeAreaView>
