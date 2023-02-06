@@ -8,12 +8,11 @@ import {
 } from 'react-native-heroicons/outline'
 import Categories from '../components/Categories';
 import FeatureRows from '../components/FeatureRows';
-import axios from 'axios';
+import Loading from '../components/Loading';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  //let data = [];
   const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
@@ -28,7 +27,6 @@ const HomeScreen = () => {
       const res = await fetch('http://192.168.1.2:8000/all_features')
       const item = await res.json();
       setData(item);
-      console.log('item: ', data)
     } catch (err) {
       console.error(err);
     } finally {
@@ -87,21 +85,18 @@ const HomeScreen = () => {
         <Categories />
 
         {/* Feature rows */}
-        {loading ? <Text>Loading...</Text> : data?.map(item => {
-        return (
-          <FeatureRows 
-          key={item.id}
-          id={item.id}
-          title={item.title}
-          description={item.description}
-        />
-        )
-        })}
-        {/*<FeatureRows 
-          id="123"
-          title="Feature"
-          description="Paid placement from our partner"
-        />*/}
+        {loading 
+          ? <Loading />
+          : data?.map(item => {
+            return (
+              <FeatureRows 
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+            />
+          )})
+        }
         {}
       </ScrollView>
     </SafeAreaView>
