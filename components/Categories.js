@@ -1,8 +1,27 @@
-import { View, Image, Text, ScrollView } from 'react-native'
-import React from 'react'
+import {  ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import CategoryCard from './CategoryCard'
+import GlobalItem from './GlobalItem';
+import Loading from './Loading';
 
 const Categories = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try{
+      const res = await fetch(`http://${GlobalItem.localIP}:8000/categories`)
+      const item = await res.json();
+      setData(item);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {fetchData()}, [])
+
   return (
     <ScrollView 
      className="bg-inherit"
@@ -13,13 +32,19 @@ const Categories = () => {
         paddingTop: 10,
      }}
     >
-        {/*Category cards */}
-        <CategoryCard imgurl={{uri: 'https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg'}} title="Testing"/>
-        <CategoryCard imgurl={{uri: 'https://images.prismic.io/dbhq-deliveroo-riders-website/ed825791-0ba4-452c-b2cb-b5381067aad3_RW_hk_kit_importance.png?auto=compress,format&rect=0,0,1753,1816&w=1400&h=1450'}}  title="Testing"/>
-        <CategoryCard imgurl={{uri: 'https://images.prismic.io/dbhq-deliveroo-riders-website/ed825791-0ba4-452c-b2cb-b5381067aad3_RW_hk_kit_importance.png?auto=compress,format&rect=0,0,1753,1816&w=1400&h=1450'}}  title="Testing"/>
-        <CategoryCard imgurl={{uri: 'https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg'}} title="Testing"/>
-        <CategoryCard imgurl={{uri: 'https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg'}} title="Testing"/>
-        <CategoryCard imgurl={{uri: 'https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg'}} title="Testing"/>
+      {/*Category cards */}
+      {loading ? 
+        <Loading /> :
+        data?.map(item => {
+          return (
+            <CategoryCard 
+              key={item.id}
+              imgurl={{uri: item.imgurl}}
+              title={item.title}
+            />
+          )
+        })
+      }
 
     </ScrollView>
   )

@@ -1,9 +1,37 @@
 import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowRightIcon } from 'react-native-heroicons/outline'
 import RestaurantCard from './RestaurantCard'
+import Loading from './Loading'
+import GlobalItem from './GlobalItem'
 
-const FeatureRows = ({title, description, id}) => {
+function rearrangeItem (data, itemList) {
+  let ret = []
+  itemList.forEach(element => {
+    const restaurant = data.find(item => item.id == element)
+    ret.push(restaurant)
+  });
+  return ret;
+}
+
+const FeatureRows = ({title, description, id, itemList}) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  const fetchData = async () => {
+    try{
+      const res = await fetch(`http://${GlobalItem.localIP}:8000/restaurants`)
+      const item = await res.json();
+      setData(item);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {fetchData()}, []);
+
   return (
     <View className="bg-inherit">
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -24,44 +52,26 @@ const FeatureRows = ({title, description, id}) => {
          className="pt-4"
         >
             {/* Restaurant Card */}
-            <RestaurantCard 
-                id={123}
-                title="Yoi sushi"
-                imgurl={require('../assets/sushi-place.jpg')}
-                rating={4.5}
-                genre="japanese"
-                address="123 Main st"
-                short_description="description"
-                dishes={[]}
-                long={20}
-                lat={0}
-            />
-
-            <RestaurantCard 
-                id={123}
-                title="Yoi sushi"
-                imgurl={require('../assets/sushi-place.jpg')}
-                rating={4.5}
-                genre="japanese"
-                address="123 Main st"
-                short_description="description"
-                dishes={[]}
-                long={20}
-                lat={0}
-            />
-
-            <RestaurantCard 
-                id={123}
-                title="Yoi sushi"
-                imgurl={require('../assets/sushi-place.jpg')}
-                rating={4.5}
-                genre="japanese"
-                address="123 Main st"
-                short_description="description"
-                dishes={[]}
-                long={20}
-                lat={0}
-            />
+            {loading ?
+              <Loading /> :
+              rearrangeItem(data, itemList)?.map(item => {
+                return (
+                  <RestaurantCard 
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    imgurl={item.imgurl}
+                    rating={item.rating}
+                    genre={item.genre}
+                    address={item.address}
+                    short_description={item.short_description}
+                    dishes={item.dishes}
+                    long={item.long}
+                    lat={item.lat}
+                  />
+                )
+              })
+            }
         </ScrollView>
     </View>
   )
