@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { 
     ArrowLeftIcon,
@@ -9,9 +9,27 @@ import {
     QuestionMarkCircleIcon
 } from 'react-native-heroicons/solid';
 import DishRows from '../components/DishRows';
+import GlobalItem from '../components/GlobalItem';
+import Loading from '../components/Loading';
 
 const RestaurantScreen = () => {
     const navigation = useNavigation();
+    const [dish, setDish] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const getDishes = async () => {
+        try {
+            const res = await fetch(`http://${GlobalItem.localIP}:8000/dishes`);
+            const json = await res.json();
+            setDish(json);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+
+    }
+    useEffect(() => {getDishes()}, []);
     const {params: {
         id,
         imgurl,
@@ -76,29 +94,18 @@ const RestaurantScreen = () => {
         <Text className="px-4 pt-6 mb-3 font-bold text-xl">Menu </Text>
 
         {/* Dish Menu */}
-        <DishRows 
-         key={1}
-         id={1}
-         name="Dish"
-         description="Desc DescDescDescDescDescDescDescDescDescDescDesc"
-         imgurl="https://thumbs.dreamstime.com/b/special-offer-price-tag-sign-paper-against-rustic-red-painted-barn-wood-55863934.jpg"
-         price={55}
-        />
-        <DishRows 
-         key={2}
-         id={1}
-         name="Dish"
-         description="Desc DescDescDescDescDescDescDescDescDescDescDesc"
-         imgurl="https://thumbs.dreamstime.com/b/special-offer-price-tag-sign-paper-against-rustic-red-painted-barn-wood-55863934.jpg"
-         price={55}
-        /><DishRows 
-        key={3}
-        id={1}
-        name="Dish"
-        description="Desc DescDescDescDescDescDescDescDescDescDescDesc"
-        imgurl="https://thumbs.dreamstime.com/b/special-offer-price-tag-sign-paper-against-rustic-red-painted-barn-wood-55863934.jpg"
-        price={55}
-       />
+        {loading ? <Loading /> : dish?.map((item) => {
+            return (
+                <DishRows 
+                 key={item.id}
+                 id={item.id}
+                 name={item.name}
+                 description={item.description}
+                 imgurl={item.imgurl}
+                 price={item.price}
+                />
+            )
+        })}
       </View>
     </ScrollView>
   )
