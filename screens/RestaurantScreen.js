@@ -11,6 +11,7 @@ import {
 import DishRows from '../components/DishRows';
 import GlobalItem from '../components/GlobalItem';
 import Loading from '../components/Loading';
+import BasketIcon from '../components/BasketIcon';
 
 const RestaurantScreen = () => {
     const navigation = useNavigation();
@@ -30,6 +31,7 @@ const RestaurantScreen = () => {
 
     }
     useEffect(() => {getDishes()}, []);
+    
     const {params: {
         id,
         imgurl,
@@ -49,6 +51,8 @@ const RestaurantScreen = () => {
         })
     })
   return (
+    <>
+    <BasketIcon />
     <ScrollView className="bg-inherit">
       <View className="relative">
         <Image 
@@ -90,7 +94,7 @@ const RestaurantScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View>
+      <View className="pb-36">
         <Text className="px-4 pt-6 mb-3 font-bold text-xl">Menu </Text>
 
         {/* Dish Menu */}
@@ -108,6 +112,7 @@ const RestaurantScreen = () => {
         })}
       </View>
     </ScrollView>
+    </>
   )
 }
 
