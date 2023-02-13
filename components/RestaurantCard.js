@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { MapPinIcon, StarIcon } from 'react-native-heroicons/solid'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux';
+import { setRestaurant } from '../features/restaurantSlice';
 
 const RestaurantCard = ({
     id,
@@ -15,6 +17,7 @@ const RestaurantCard = ({
     long,
     lat
 }) => {
+    const dispatch = useDispatch();
     const navigation = useNavigation();
   return (
     <TouchableOpacity 
@@ -30,7 +33,19 @@ const RestaurantCard = ({
             dishes,
             long,
             lat
-        })
+        });
+        dispatch(setRestaurant({
+            id,
+            imgurl,
+            title,
+            rating,
+            genre,
+            address,
+            short_description,
+            dishes,
+            long,
+            lat
+        }))
      }}
      className="bg-white mr-3 shadow">
         <Image 

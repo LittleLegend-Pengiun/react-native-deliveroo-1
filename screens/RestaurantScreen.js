@@ -12,6 +12,7 @@ import DishRows from '../components/DishRows';
 import GlobalItem from '../components/GlobalItem';
 import Loading from '../components/Loading';
 import BasketIcon from '../components/BasketIcon';
+import { useDispatch } from 'react-redux';
 
 const RestaurantScreen = () => {
     const navigation = useNavigation();
