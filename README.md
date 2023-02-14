@@ -17,12 +17,10 @@ To connect to localhost backend, navigate to the __adb.exe__ (you must have [And
 ```
 
 ### Showcase
-<picture>
-<center>
+<p float="left">
 <img src="./assets/Showcase-1.png" width="150" height="300">
 <img src="./assets/showcase-2.png" width="150" height="300">
 <img src="./assets/showcase-3.png" width="150" height="300">
 <img src="./assets/showcase-4.png" width="150" height="300">
 <img src="./assets/showcase-6.png" width="150" height="300">
-</center>
-</picture>
+</p>
