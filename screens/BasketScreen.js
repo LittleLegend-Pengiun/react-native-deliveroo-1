@@ -1,4 +1,5 @@
-import { View, Text, Image, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useEffect, useState } from 'react'
 import GlobalItem from '../components/GlobalItem'
 import { useNavigation } from '@react-navigation/native'
@@ -27,7 +28,7 @@ const BasketScreen = () => {
   }, [items]);
 
   return (
-    <SafeAreaView className={GlobalItem.droidSafeArea}>
+    <SafeAreaView className="flex-1">
       <View className="flex-1 bg-white">
         <View className="flex-1 bg-gray-100">
           <View className="p-5 border-b border-[#00CCBB] bg-white shadow-xs">

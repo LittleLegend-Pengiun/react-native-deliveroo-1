@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useEffect } from 'react'
 import * as Animatable from 'react-native-animatable';
 import * as Progress from 'react-native-progress';
@@ -9,7 +9,7 @@ const PreparingScreen = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate("Basket")
+            navigation.navigate("Delivery")
         }, 3000)
     }, [])
 
