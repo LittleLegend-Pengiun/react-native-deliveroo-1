@@ -8,6 +8,8 @@ import BasketScreen from './screens/BasketScreen';
 import { Platform } from 'react-native';
 import { TransitionPresets } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
+import PreparingScreen from './screens/PreparingScreen';
+import DeliveryScreen from './screens/DeliveryScreen';
 
 const Stack = createNativeStackNavigator();
 const isAndroid = Platform.OS === 'android';
@@ -24,8 +26,17 @@ export default function App() {
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Restaurant" component={RestaurantScreen}/>
-        <Stack.Screen name="Basket" component={BasketScreen}
+        <Stack.Screen 
+         name="Basket" component={BasketScreen}
          options={{presentation: "transparentModal", headerShown: false}}
+        />
+        <Stack.Screen 
+         name="Preparing" component={PreparingScreen}
+         options={{presentation: "fullScreenModal", headerShown: false}}
+        />
+        <Stack.Screen 
+         name="Delivery" component={DeliveryScreen}
+         options={{presentation: "fullScreenModal", headerShown: false}}
         />
       </Stack.Navigator>
       </Provider>
